@@ -1,4 +1,5 @@
 from enum import Enum
+
 # TODO: Custom Exceptions
 #       Slot is occupied
 #
@@ -14,12 +15,14 @@ class SlotIsOccupiedError(Exception):
         row, column = self.position
         return f"Row: {row +1}, Column: {column +1} - {self.message}"
 
+
 # TODO: Create board
 #       Data Structure nested list
 #       Row[[Columns]] = row = 6, columns=7
 #       Show board
 
-def get_board(rows: int = 6, columns: int = 7) -> list:
+
+def create_board(rows: int = 6, columns: int = 7) -> list:
     """
 
     :param rows:
@@ -34,14 +37,14 @@ def get_board(rows: int = 6, columns: int = 7) -> list:
 
 def board_tokens(cell: str) -> str:
     if not cell:
-        cell = "\u2610"
+        cell = Players.NO_PLAYER.value
     return cell
 
 
 def show_board(board):
     for idx, row in enumerate(board, 1):
         print(idx, list(map(lambda x: board_tokens(x), row)))
-    cols = [f"{value:>5}" for value in range(1, (len(board[0])+1))]
+    cols = [f"{value:>5}" for value in range(1, (len(board[0]) + 1))]
     print("".join(cols))
 
 
@@ -52,6 +55,7 @@ class Players(Enum):
     PLAYER_1 = "\U0001F534"  # Red Circle
     PLAYER_2 = "\U0001F535"  # Blue Circle
     CPU = "\U0001F916"  # Robot Face
+    NO_PLAYER = "\u2610"  # Empty square
 
     def __str__(self):
         return f"{self.value}"
@@ -61,10 +65,9 @@ def select_a_slot(board):
     rows_nums, columns_nums = range(len(board)), range(len(board[0]))
 
     while True:
-        row, column = [
-            input(f"Enter a {val} position") for val in ["row", "column"]]
+        row, column = [input(f"Enter a {val} position") for val in ["row", "column"]]
         try:
-            row, column = int(row)-1, int(column)-1  # -1 count start from 1
+            row, column = int(row) - 1, int(column) - 1  # -1 count start from 1
 
             if not (row in rows_nums and column in columns_nums):
                 raise IndexError
@@ -86,7 +89,6 @@ def select_a_slot(board):
 
         else:
             return row, column
-
 
 
 # TODO: Game logic
