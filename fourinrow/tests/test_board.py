@@ -1,7 +1,11 @@
+# -*- coding: utf-8 -*-
 from fourinrow.fourinrow import create_board, Players
 
 
 def test_board_defaults():
+    """Checks the defaults values of board.
+    Correct answer should be nr rows x columns.
+    """
     board = create_board()
     none_vals = sum([value.count(None) for value in board])
     expected_value = len(board) * len(board[0])
