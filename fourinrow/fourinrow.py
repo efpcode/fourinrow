@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from enum import Enum
 
 # TODO: Custom Exceptions
@@ -60,8 +61,13 @@ class Players(Enum):
     def __str__(self):
         return f"{self.value}"
 
+    @classmethod
+    def get_all_player_tokens(cls) -> list:
+        return [token.value for token in cls]
+
 
 def select_a_slot(board):
+    not_slot_counter: int = 0
     rows_nums, columns_nums = range(len(board)), range(len(board[0]))
 
     while True:
@@ -85,6 +91,9 @@ def select_a_slot(board):
 
         except SlotIsOccupiedError as error:
             print(error)
+            not_slot_counter += 1
+            if not_slot_counter > 5:
+                raise SlotIsOccupiedError((row, column))
             continue
 
         else:

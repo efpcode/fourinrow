@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
-
+import pytest
 from fourinrow.fourinrow import select_a_slot, create_board
+from fourinrow.fourinrow import SlotIsOccupiedError
 
 
 def test_pick_position(monkeypatch):
@@ -8,3 +9,13 @@ def test_pick_position(monkeypatch):
     board = create_board()
     value = select_a_slot(board)
     assert value == (1, 1)
+
+
+def test_occupied_slot(monkeypatch):
+    board = create_board(2, 2)
+    board[1][1] = "Value"
+    monkeypatch.setattr("builtins.input", lambda _: 2)
+    with pytest.raises(
+        SlotIsOccupiedError, match="Row: 2, Column: 2 - Slot is occupied"
+    ):
+        select_a_slot(board)
