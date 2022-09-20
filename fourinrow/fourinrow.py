@@ -1,4 +1,6 @@
+# -*- coding: utf-8 -*-
 from enum import Enum
+from typing import Tuple
 
 # TODO: Custom Exceptions
 #       Slot is occupied
@@ -37,7 +39,7 @@ def create_board(rows: int = 6, columns: int = 7) -> list:
 
 def board_tokens(cell: str) -> str:
     if not cell:
-        cell = Players.NO_PLAYER.value
+        cell = PlayerTokens.NO_PLAYER.value
     return cell
 
 
@@ -51,7 +53,7 @@ def show_board(board):
 # TODO: Create Interface
 #     Player Token
 #     Placing Token only on None/Empty slot
-class Players(Enum):
+class PlayerTokens(Enum):
     PLAYER_1 = "\U0001F534"  # Red Circle
     PLAYER_2 = "\U0001F535"  # Blue Circle
     CPU = "\U0001F916"  # Robot Face
@@ -60,6 +62,10 @@ class Players(Enum):
     def __str__(self):
         return f"{self.value}"
 
+    @classmethod
+    def get_all_player_tokens(cls) -> list:
+        return [token.value for token in cls]
+
 
 def select_a_slot(board):
     rows_nums, columns_nums = range(len(board)), range(len(board[0]))
@@ -67,7 +73,7 @@ def select_a_slot(board):
     while True:
         row, column = [input(f"Enter a {val} position") for val in ["row", "column"]]
         try:
-            row, column = int(row) - 1, int(column) - 1  # -1 count start from 1
+            row, column = int(row) - 1, int(column) - 1  # count start from 1
 
             if not (row in rows_nums and column in columns_nums):
                 raise IndexError
@@ -92,8 +98,13 @@ def select_a_slot(board):
 
 
 # TODO: Game logic
+#       Position Walker
 #       Check for winner -> Winner, Draw
 #       Winner = [tk, tk, tk, tk] four elements have to have the same value
+
+
+def move_horizontal(board_pos: Tuple["Row", "Column"], step: int) -> tuple:
+    return board_pos[0], board_pos[1] + step
 
 
 if __name__ == "__main__":
