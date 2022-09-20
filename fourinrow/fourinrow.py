@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from enum import Enum
+from typing import Tuple
 
 # TODO: Custom Exceptions
 #       Slot is occupied
@@ -97,8 +98,13 @@ def select_a_slot(board):
 
 
 # TODO: Game logic
+#       Position Walker
 #       Check for winner -> Winner, Draw
 #       Winner = [tk, tk, tk, tk] four elements have to have the same value
+
+
+def move_horizontal(board_pos: Tuple["Row", "Column"], step: int) -> tuple:
+    return board_pos[0], board_pos[1] + step
 
 
 if __name__ == "__main__":
