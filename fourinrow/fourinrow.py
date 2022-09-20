@@ -38,7 +38,7 @@ def create_board(rows: int = 6, columns: int = 7) -> list:
 
 def board_tokens(cell: str) -> str:
     if not cell:
-        cell = Players.NO_PLAYER.value
+        cell = PlayerTokens.NO_PLAYER.value
     return cell
 
 
@@ -52,7 +52,7 @@ def show_board(board):
 # TODO: Create Interface
 #     Player Token
 #     Placing Token only on None/Empty slot
-class Players(Enum):
+class PlayerTokens(Enum):
     PLAYER_1 = "\U0001F534"  # Red Circle
     PLAYER_2 = "\U0001F535"  # Blue Circle
     CPU = "\U0001F916"  # Robot Face

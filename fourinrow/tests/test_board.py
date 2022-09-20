@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from fourinrow.fourinrow import create_board, Players
+from fourinrow.fourinrow import create_board, PlayerTokens
 
 
 def test_board_defaults():
@@ -13,7 +13,7 @@ def test_board_defaults():
 
 
 def test_default_tokens():
-    assert Players.NO_PLAYER.value == "\u2610"
-    assert Players.PLAYER_1.value == "\U0001F534"
-    assert Players.PLAYER_2.value == "\U0001F535"
-    assert Players.CPU.value == "\U0001F916"
+    assert PlayerTokens.NO_PLAYER.value == "\u2610"
+    assert PlayerTokens.PLAYER_1.value == "\U0001F534"
+    assert PlayerTokens.PLAYER_2.value == "\U0001F535"
+    assert PlayerTokens.CPU.value == "\U0001F916"
