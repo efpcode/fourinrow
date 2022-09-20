@@ -72,7 +72,7 @@ def select_a_slot(board):
     while True:
         row, column = [input(f"Enter a {val} position") for val in ["row", "column"]]
         try:
-            row, column = int(row) - 1, int(column) - 1  # -1 count start from 1
+            row, column = int(row) - 1, int(column) - 1  # count start from 1
 
             if not (row in rows_nums and column in columns_nums):
                 raise IndexError
