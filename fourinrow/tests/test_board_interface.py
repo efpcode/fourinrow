@@ -13,9 +13,12 @@ def test_pick_position(monkeypatch):
 
 def test_occupied_slot(monkeypatch):
     board = create_board(2, 2)
-    board[1][1] = "Value"
     monkeypatch.setattr("builtins.input", lambda _: 2)
+    row, column = select_a_slot(board)
+    board[row][column] = 1
+
     with pytest.raises(
         SlotIsOccupiedError, match="Row: 2, Column: 2 - Slot is occupied"
     ):
-        select_a_slot(board)
+        if board[row][column]:
+            raise SlotIsOccupiedError((row, column))

@@ -67,7 +67,6 @@ class Players(Enum):
 
 
 def select_a_slot(board):
-    not_slot_counter: int = 0
     rows_nums, columns_nums = range(len(board)), range(len(board[0]))
 
     while True:
@@ -91,9 +90,6 @@ def select_a_slot(board):
 
         except SlotIsOccupiedError as error:
             print(error)
-            not_slot_counter += 1
-            if not_slot_counter > 5:
-                raise SlotIsOccupiedError((row, column))
             continue
 
         else:
