@@ -3,7 +3,6 @@ import pytest
 from fourinrow.fourinrow import select_a_slot, create_board
 from fourinrow.fourinrow import SlotIsOccupiedError
 from fourinrow.fourinrow import move_horizontal
-from typing import Tuple
 
 
 def test_pick_position(monkeypatch):
