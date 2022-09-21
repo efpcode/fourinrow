@@ -26,7 +26,8 @@ def test_occupied_slot(monkeypatch):
             raise SlotIsOccupiedError((row, column))
 
 
-def test_move_horizontal(board_pos: Tuple["Row", "Column"] = (0, 0)) -> tuple:
+def test_move_horizontal():
+    board_pos = (1, 2)
     new_pos_mv = move_horizontal(board_pos, 1)
     new_neg_mv = move_horizontal(board_pos, -1)
     expected_value = (board_pos[0], board_pos[1] + 1)
