@@ -103,7 +103,9 @@ def select_a_slot(board):
 #       Winner = [tk, tk, tk, tk] four elements have to have the same value
 
 
-def move_horizontal(board_pos: Tuple["Row", "Column"], step: int) -> tuple:
+def move_linear(board_pos: Tuple[int, int], step: int, v_move: bool = False) -> tuple:
+    if v_move:
+        return board_pos[0] + step, board_pos[1]
     return board_pos[0], board_pos[1] + step
 
 
