@@ -9,4 +9,8 @@ repos:
 -   repo: https://github.com/psf/black
     rev: 22.8.0
     hooks:
-    -   id: black
+        -   id: black
+-   repo: https://github.com/PyCQA/pylint
+    rev: v2.15.3
+    hooks:
+    -   id: pylint
