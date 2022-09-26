@@ -1,13 +1,12 @@
 # -*- coding: utf-8 -*-
+"""Four-in-a-row Game"""
 from enum import Enum
 from typing import Tuple
 
-# TODO: Custom Exceptions
-#       Slot is occupied
-#
-
 
 class SlotIsOccupiedError(Exception):
+    """Handles slot is not empty exception"""
+
     def __init__(self, position: tuple, message="Slot is occupied"):
         self.position = position
         self.message = message
@@ -18,18 +17,22 @@ class SlotIsOccupiedError(Exception):
         return f"Row: {row +1}, Column: {column +1} - {self.message}"
 
 
-# TODO: Create board
-#       Data Structure nested list
-#       Row[[Columns]] = row = 6, columns=7
-#       Show board
-
-
 def create_board(rows: int = 6, columns: int = 7) -> list:
-    """
+    """Creates playing board by rows X column
 
-    :param rows:
-    :param columns:
-    :return: rows[columns]
+    Parameters
+    ----------
+    rows : int
+        The rows parameter is the number of rows of the board.
+    columns : int
+        The columns parameter is the number of columns of the  board.
+
+
+    Returns
+    -------
+    board: list
+        The board with rows X columns [(row, column), (row, column)....]
+
     """
     board = []
     for _ in range(rows):
@@ -37,23 +40,44 @@ def create_board(rows: int = 6, columns: int = 7) -> list:
     return board
 
 
-def board_tokens(cell: str) -> str:
-    if not cell:
-        cell = PlayerTokens.NO_PLAYER.value
-    return cell
+def board_tokens(slot_value: str) -> str:
+    """
+
+    Parameters
+    ----------
+    slot_value : str
+        The parameter called slot_value is positional value in the board.
+
+    Returns
+    -------
+    slot_value : str
+        The value of that position of the board.
+
+    """
+    if not slot_value:
+        slot_value = PlayerTokens.NO_PLAYER.value
+    return slot_value
 
 
-def show_board(board):
+def show_board(board: list) -> None:
+    """Present the board in human friendly terms.
+
+    Parameters
+    ----------
+    board: list
+        The playing board.
+
+    """
+
     for idx, row in enumerate(board, 1):
-        print(idx, list(map(lambda x: board_tokens(x), row)))
+        print(idx, list(map(board_tokens, row)))
     cols = [f"{value:>5}" for value in range(1, (len(board[0]) + 1))]
     print("".join(cols))
 
 
-# TODO: Create Interface
-#     Player Token
-#     Placing Token only on None/Empty slot
 class PlayerTokens(Enum):
+    """The available tokens in the game."""
+
     PLAYER_1 = "\U0001F534"  # Red Circle
     PLAYER_2 = "\U0001F535"  # Blue Circle
     CPU = "\U0001F916"  # Robot Face
@@ -64,10 +88,31 @@ class PlayerTokens(Enum):
 
     @classmethod
     def get_all_player_tokens(cls) -> list:
+        """List all tokens in available in the game.
+
+        Returns
+        -------
+        list
+            The list of tokens
+
+        """
         return [token.value for token in cls]
 
 
-def select_a_slot(board):
+def select_a_slot(board: list) -> tuple:
+    """Selects a position of the gaming board.
+
+    Parameters
+    ----------
+    board: list
+        The parameter board is the current gaming board.
+
+    Returns
+    -------
+    tuple
+        The value of row and column as a tuple (row, column)
+
+    """
     rows_nums, columns_nums = range(len(board)), range(len(board[0]))
 
     while True:
@@ -98,15 +143,30 @@ def select_a_slot(board):
 
 
 # TODO: Game logic
-#       Position Walker
-#       Check for winner -> Winner, Draw
-#       Winner = [tk, tk, tk, tk] four elements have to have the same value
+#    Position Walker
+#    Check for winner -> Winner, Draw
+#    Winner = [tk, tk, tk, tk] four elements have to have the same value
 
 
-def move_linear(board_pos: Tuple[int, int], step: int, v_move: bool = False) -> tuple:
+def move_linear(init_pos: Tuple[int, int], step: int, v_move: bool = False) -> tuple:
+    """Moves horizontal or vertical from initial board position
+
+    Parameters
+    ----------
+    init_pos : tuple
+        The parameter init_pos is the initial position on the board.
+    step : int
+        The step parameter, determines movement distance from initial point.
+    v_move: bool
+        The v_move, is bool if set to value True direction is vertical.
+
+    Returns
+    -------
+
+    """
     if v_move:
-        return board_pos[0] + step, board_pos[1]
-    return board_pos[0], board_pos[1] + step
+        return init_pos[0] + step, init_pos[1]
+    return init_pos[0], init_pos[1] + step
 
 
 if __name__ == "__main__":
