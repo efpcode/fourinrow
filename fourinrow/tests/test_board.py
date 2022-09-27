@@ -28,14 +28,10 @@ def test_move_linear():
     new_neg_mv = move_linear(board_pos, -1)
     new_pos_mv_v = move_linear(board_pos, 1, True)
     new_neg_mv_v = move_linear(board_pos, -1, True)
-    expected_value = (board_pos[0], board_pos[1] + 1)
-    expected_value2 = (board_pos[0], board_pos[1] - 1)
-    expected_value3 = (board_pos[0] + 1, board_pos[1])
-    expected_value4 = (board_pos[0] - 1, board_pos[1])
-    assert new_pos_mv == expected_value
-    assert new_neg_mv == expected_value2
-    assert new_pos_mv_v == expected_value3
-    assert new_neg_mv_v == expected_value4
+    assert new_pos_mv == (board_pos[0], board_pos[1] + 1)
+    assert new_neg_mv == (board_pos[0], board_pos[1] - 1)
+    assert new_pos_mv_v == (board_pos[0] + 1, board_pos[1])
+    assert new_neg_mv_v == (board_pos[0] - 1, board_pos[1])
 
 
 def test_none_move_linear():
