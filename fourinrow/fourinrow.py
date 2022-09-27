@@ -162,8 +162,14 @@ def move_linear(init_pos: Tuple[int, int], step: int, v_move: bool = False) -> t
 
     Returns
     -------
+    tuple : int
+         New position for row and column (row, column)
 
     """
+    if None in init_pos:
+        raise ValueError(
+            f"Invalid values: Row is {init_pos[0]} or Column is {init_pos[1]}"
+        )
     if v_move:
         return init_pos[0] + step, init_pos[1]
     return init_pos[0], init_pos[1] + step
