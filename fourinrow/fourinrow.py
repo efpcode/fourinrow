@@ -175,5 +175,37 @@ def move_linear(init_pos: Tuple[int, int], step: int, v_move: bool = False) -> t
     return init_pos[0], init_pos[1] + step
 
 
+def move_diagonal(init_pos, step, direction):
+    """Move initial board position in diagonal matter.
+
+    Parameters
+    ----------
+    init_pos : tuple
+    step : int
+    direction : str
+
+    Returns
+    -------
+    tuple
+
+    """
+    row = None
+    column = None
+    if direction == "trc":
+        _, column = move_linear(init_pos, step)
+        row, _ = move_linear(init_pos, step, True)
+    elif direction == "brc":
+        _, column = move_linear(init_pos, (step * -1))
+        row, _ = move_linear(init_pos, step, True)
+    elif direction == "tlc":
+        _, column = move_linear(init_pos, step)
+        row, _ = move_linear(init_pos, (step * -1), True)
+    else:
+        _, column = move_linear(init_pos, (step * -1))
+        row, _ = move_linear(init_pos, (step * -1), True)
+        return row, column
+    return row, column
+
+
 if __name__ == "__main__":
     print("Welcome")
