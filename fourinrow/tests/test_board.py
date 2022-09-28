@@ -38,7 +38,7 @@ def test_none_move_linear():
     board_pos = (None, None)
     with pytest.raises(
         ValueError,
-        match=f"Invalid values: Row is {board_pos[0]} or Column is " f"{board_pos[1]}",
+        match=f"Invalid values: Row is {board_pos[0]} or Column is {board_pos[1]}",
     ):
         move_linear(board_pos, 1)
 
