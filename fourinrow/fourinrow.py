@@ -207,5 +207,29 @@ def move_diagonal(init_pos, step, direction):
     return row, column
 
 
+def token_equality(
+    board: list, match_token: Tuple[int, int], target_token: Tuple[int, int]
+) -> bool:
+    """Check if tow slots postion have the same token.
+
+    Parameters
+    ----------
+    board : list
+        Current playing board of n-rows X n-columns
+    match_token : Tuple[int][int]
+        Board position expressed as coordinates (row, column). Pattern to match against.
+    target_token : Tuple[int][int]
+        Board position expressed as coordinates (row, column). Target for match.
+
+    Returns
+    -------
+    bool
+        True if match- and target- token are equal. Otherwise returns False.
+    """
+    pattern_token = board[match_token[0]][match_token[1]]
+    test_token = board[target_token[0]][target_token[1]]
+    return pattern_token == test_token
+
+
 if __name__ == "__main__":
     print("Welcome")
