@@ -22,3 +22,12 @@ def test_occupied_slot(monkeypatch):
     ):
         if board[row][column]:
             raise SlotIsOccupiedError((row, column))
+
+
+# Todo Create Walker
+# Needs to move one step - done
+# Needs to remember last valid position - variable
+# Needs to retrace steps - done
+# Needs to count - variable
+# Needs mock data to validate - think 3x3 and tictactoe.
+# Needs to check tokes are the same
