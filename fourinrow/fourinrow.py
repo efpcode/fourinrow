@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 """Four-in-a-row Game"""
+from dataclasses import dataclass, field
 from enum import Enum
 from typing import Tuple
 
@@ -229,6 +230,41 @@ def token_equality(
     pattern_token = board[match_token[0]][match_token[1]]
     test_token = board[target_token[0]][target_token[1]]
     return pattern_token == test_token
+
+
+@dataclass
+class BoardValues:
+    """Represents the bord and it values"""
+
+    rows: int
+    columns: int
+    board: list = field(init=False, repr=False)
+
+    def create_board(self, rows, columns):
+        """
+
+        Parameters
+        ----------
+        rows : int
+            Number of rows
+        columns : int
+            Number of columns
+
+        Returns
+        -------
+        Board : list
+            The board: [(row, column), (row, column)]
+
+        """
+        board = []
+        for _ in range(rows):
+            board.append([None for _ in range(columns)])
+        return board
+
+    def __post_init__(self):
+        new_board = self.create_board(self.rows, self.columns)
+        self.board = new_board
+        return self.board
 
 
 if __name__ == "__main__":

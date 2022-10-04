@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import pytest
 from fourinrow.fourinrow import (
+    BoardValues,
     PlayerTokens,
     create_board,
     move_diagonal,
@@ -71,3 +72,14 @@ def test_token_equality():
     board[1][1] = PlayerTokens.PLAYER_1.value
     token_equal = token_equality(board, match_token=(0, 1), target_token=(1, 1))
     assert token_equal is True
+
+
+@pytest.fixture
+def board_creator() -> BoardValues:
+    return BoardValues(rows=6, columns=7)
+
+
+def test_create_board(board_creator):
+    board = board_creator.create_board(board_creator.rows, board_creator.columns)
+    assert len(board) == board_creator.rows
+    assert len(board[0]) == board_creator.columns
