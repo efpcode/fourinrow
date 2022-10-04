@@ -261,6 +261,10 @@ class BoardValues:
             board.append([None for _ in range(columns)])
         return board
 
+    def get_board_value(self, pos: Tuple[int, int]) -> PlayerTokens:
+        """Get board value from coordinates"""
+        return self.board[pos[0]][pos[1]]
+
     def __post_init__(self):
         new_board = self.create_board(self.rows, self.columns)
         self.board = new_board

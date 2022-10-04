@@ -79,7 +79,18 @@ def board_creator() -> BoardValues:
     return BoardValues(rows=6, columns=7)
 
 
+@pytest.fixture
+def board_data(board_creator) -> BoardValues:
+    board_creator.board[0][1] = PlayerTokens.PLAYER_1.value
+    return board_creator
+
+
 def test_create_board(board_creator):
     board = board_creator.create_board(board_creator.rows, board_creator.columns)
     assert len(board) == board_creator.rows
     assert len(board[0]) == board_creator.columns
+
+
+def test_get_board_value(board_data):
+    token = board_data.get_board_value((0, 1))
+    assert token == PlayerTokens.PLAYER_1.value
