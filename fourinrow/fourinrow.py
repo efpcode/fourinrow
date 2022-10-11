@@ -8,12 +8,25 @@ from typing import Tuple
 class SlotIsOccupiedError(Exception):
     """Handles slot is not empty exception"""
 
-    def __init__(self, position: tuple, message="Slot is occupied"):
+    def __init__(self, position: Tuple[int, int], message="Slot is occupied") -> None:
         self.position = position
         self.message = message
         super().__init__(message)
 
     def __str__(self):
+        row, column = self.position
+        return f"Row: {row +1}, Column: {column +1} - {self.message}"
+
+
+class IsOutOfRange(Exception):
+    """Handles when board postions passed are out of range"""
+
+    def __init__(self, position: Tuple[int, int], message="Out of range") -> None:
+        self.position = position
+        self.message = message
+        super().__init__(message)
+
+    def __str__(self) -> str:
         row, column = self.position
         return f"Row: {row +1}, Column: {column +1} - {self.message}"
 
@@ -263,7 +276,19 @@ class BoardValues:
 
     def get_board_value(self, pos: Tuple[int, int]) -> PlayerTokens:
         """Get board value from coordinates"""
+        pos = self._position_in_range(pos)
         return self.board[pos[0]][pos[1]]
+
+    def _position_in_range(self, position: Tuple[int, int]) -> Tuple[int, int]:
+        row, column = position
+        is_pos_negative = all(map(lambda x: x >= 0, position))
+        is_within_range = all(
+            (len(self.board) - 1 >= row, len(self.board[0]) - 1 >= column)
+        )
+
+        if not (is_pos_negative and is_within_range):
+            raise IsOutOfRange(position=position)
+        return position
 
     def __post_init__(self):
         new_board = self.create_board(self.rows, self.columns)

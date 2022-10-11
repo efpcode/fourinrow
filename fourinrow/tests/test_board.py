@@ -1,7 +1,10 @@
 # -*- coding: utf-8 -*-
+from inspect import iscoroutinefunction
+
 import pytest
 from fourinrow.fourinrow import (
     BoardValues,
+    IsOutOfRange,
     PlayerTokens,
     create_board,
     move_diagonal,
@@ -94,3 +97,10 @@ def test_create_board(board_creator):
 def test_get_board_value(board_data):
     token = board_data.get_board_value((0, 1))
     assert token == PlayerTokens.PLAYER_1.value
+
+
+def test_within_range(board_data):
+    with pytest.raises(
+        IsOutOfRange, match=f"Row: {(-1) +1}, Column: {8 +1} - Out of range"
+    ):
+        board_data.get_board_value((-1, 8))
