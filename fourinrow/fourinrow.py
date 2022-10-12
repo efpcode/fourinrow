@@ -279,6 +279,21 @@ class BoardValues:
         pos = self._position_in_range(pos)
         return self.board[pos[0]][pos[1]]
 
+    def set_board_value(self, position: Tuple[int, int], value: PlayerTokens) -> None:
+        """Set a value to board coordinates"""
+        pos = self._position_in_range(position=position)
+        new_board = self.board
+        new_board[pos[0]][pos[1]] = value
+        self.board = new_board
+
+    def board_value_equality(
+        self, position: Tuple[int, int], position2=Tuple[int, int]
+    ) -> bool:
+        """Checks if board coordinates have the same value"""
+        value_pos = self.get_board_value(pos=position)
+        value_pos2 = self.get_board_value(pos=position2)
+        return value_pos is value_pos2
+
     def _position_in_range(self, position: Tuple[int, int]) -> Tuple[int, int]:
         row, column = position
         is_pos_negative = all(map(lambda x: x >= 0, position))

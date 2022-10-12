@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from inspect import iscoroutinefunction
+from turtle import position
 
 import pytest
 from fourinrow.fourinrow import (
@@ -104,3 +105,14 @@ def test_within_range(board_data):
         IsOutOfRange, match=f"Row: {(-1) +1}, Column: {8 +1} - Out of range"
     ):
         board_data.get_board_value((-1, 8))
+
+
+def test_set_board_value(board_data):
+    board_data.set_board_value(position=(1, 1), value=PlayerTokens.PLAYER_2.value)
+    assert board_data.board[1][1] == PlayerTokens.PLAYER_2.value
+    assert board_data.get_board_value((1, 1)) == PlayerTokens.PLAYER_2.value
+
+
+def test_board_value_equality(board_data):
+    board_data.set_board_value(position=(1, 4), value=PlayerTokens.PLAYER_1.value)
+    assert board_data.board_value_equality(position=(0, 1), position2=(1, 4))
