@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 """Four-in-a-row Game"""
+from dataclasses import dataclass, field
 from enum import Enum
 from typing import Tuple
 
@@ -7,12 +8,25 @@ from typing import Tuple
 class SlotIsOccupiedError(Exception):
     """Handles slot is not empty exception"""
 
-    def __init__(self, position: tuple, message="Slot is occupied"):
+    def __init__(self, position: Tuple[int, int], message="Slot is occupied") -> None:
         self.position = position
         self.message = message
         super().__init__(message)
 
     def __str__(self):
+        row, column = self.position
+        return f"Row: {row +1}, Column: {column +1} - {self.message}"
+
+
+class IsOutOfRange(Exception):
+    """Handles when board postions passed are out of range"""
+
+    def __init__(self, position: Tuple[int, int], message="Out of range") -> None:
+        self.position = position
+        self.message = message
+        super().__init__(message)
+
+    def __str__(self) -> str:
         row, column = self.position
         return f"Row: {row +1}, Column: {column +1} - {self.message}"
 
@@ -229,6 +243,72 @@ def token_equality(
     pattern_token = board[match_token[0]][match_token[1]]
     test_token = board[target_token[0]][target_token[1]]
     return pattern_token == test_token
+
+
+@dataclass
+class BoardValues:
+    """Represents the bord and it values"""
+
+    rows: int
+    columns: int
+    board: list = field(init=False, repr=False)
+
+    def create_board(self, rows, columns):
+        """
+
+        Parameters
+        ----------
+        rows : int
+            Number of rows
+        columns : int
+            Number of columns
+
+        Returns
+        -------
+        Board : list
+            The board: [(row, column), (row, column)]
+
+        """
+        board = []
+        for _ in range(rows):
+            board.append([None for _ in range(columns)])
+        return board
+
+    def get_board_value(self, pos: Tuple[int, int]) -> PlayerTokens:
+        """Get board value from coordinates"""
+        pos = self._position_in_range(pos)
+        return self.board[pos[0]][pos[1]]
+
+    def set_board_value(self, position: Tuple[int, int], value: PlayerTokens) -> None:
+        """Set a value to board coordinates"""
+        pos = self._position_in_range(position=position)
+        new_board = self.board
+        new_board[pos[0]][pos[1]] = value
+        self.board = new_board
+
+    def board_value_equality(
+        self, position: Tuple[int, int], position2=Tuple[int, int]
+    ) -> bool:
+        """Checks if board coordinates have the same value"""
+        value_pos = self.get_board_value(pos=position)
+        value_pos2 = self.get_board_value(pos=position2)
+        return value_pos is value_pos2
+
+    def _position_in_range(self, position: Tuple[int, int]) -> Tuple[int, int]:
+        row, column = position
+        is_pos_negative = all(map(lambda x: x >= 0, position))
+        is_within_range = all(
+            (len(self.board) - 1 >= row, len(self.board[0]) - 1 >= column)
+        )
+
+        if not (is_pos_negative and is_within_range):
+            raise IsOutOfRange(position=position)
+        return position
+
+    def __post_init__(self):
+        new_board = self.create_board(self.rows, self.columns)
+        self.board = new_board
+        return self.board
 
 
 if __name__ == "__main__":

@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 import pytest
 from fourinrow.fourinrow import (
+    BoardValues,
+    IsOutOfRange,
     PlayerTokens,
     create_board,
     move_diagonal,
@@ -71,3 +73,43 @@ def test_token_equality():
     board[1][1] = PlayerTokens.PLAYER_1.value
     token_equal = token_equality(board, match_token=(0, 1), target_token=(1, 1))
     assert token_equal is True
+
+
+@pytest.fixture
+def board_creator() -> BoardValues:
+    return BoardValues(rows=6, columns=7)
+
+
+@pytest.fixture
+def board_data(board_creator) -> BoardValues:
+    board_creator.board[0][1] = PlayerTokens.PLAYER_1.value
+    return board_creator
+
+
+def test_create_board(board_creator):
+    board = board_creator.create_board(board_creator.rows, board_creator.columns)
+    assert len(board) == board_creator.rows
+    assert len(board[0]) == board_creator.columns
+
+
+def test_get_board_value(board_data):
+    token = board_data.get_board_value((0, 1))
+    assert token == PlayerTokens.PLAYER_1.value
+
+
+def test_within_range(board_data):
+    with pytest.raises(
+        IsOutOfRange, match=f"Row: {(-1) +1}, Column: {8 +1} - Out of range"
+    ):
+        board_data.get_board_value((-1, 8))
+
+
+def test_set_board_value(board_data):
+    board_data.set_board_value(position=(1, 1), value=PlayerTokens.PLAYER_2.value)
+    assert board_data.board[1][1] == PlayerTokens.PLAYER_2.value
+    assert board_data.get_board_value((1, 1)) == PlayerTokens.PLAYER_2.value
+
+
+def test_board_value_equality(board_data):
+    board_data.set_board_value(position=(1, 4), value=PlayerTokens.PLAYER_1.value)
+    assert board_data.board_value_equality(position=(0, 1), position2=(1, 4))

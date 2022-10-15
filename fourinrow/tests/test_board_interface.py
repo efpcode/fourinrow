@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 import pytest
-from fourinrow.fourinrow import select_a_slot, create_board
-from fourinrow.fourinrow import SlotIsOccupiedError
+from fourinrow.fourinrow import SlotIsOccupiedError, create_board, select_a_slot
 
 
 def test_pick_position(monkeypatch):
