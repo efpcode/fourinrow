@@ -1,7 +1,4 @@
 # -*- coding: utf-8 -*-
-from inspect import iscoroutinefunction
-from turtle import position
-
 import pytest
 from fourinrow.fourinrow import (
     BoardValues,
