@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import pyexpat
 import pytest
 from fourinrow.fourinrow import (
     BoardValues,
@@ -46,25 +47,20 @@ def test_none_linear_move() -> None:
         move_linear(board_pos, 1)
 
 
-def test_none_diagonal_move() -> None:
-    board_pos = (None, None)
-    with pytest.raises(
-        ValueError,
-        match=f"Invalid values: Row is {board_pos[0]} or Column is {board_pos[1]}",
-    ):
-        move_diagonal(board_pos, 1, "tlc")
+@pytest.fixture
+def start_pos() -> tuple:
+    return (-1, 1)
 
 
-def test_move_diagonal() -> None:
-    board_pos = (0, 0)
-    trc_pos = move_diagonal(board_pos, 1, "trc")
-    brc_pos = move_diagonal(board_pos, 1, "brc")
-    tlc_pos = move_diagonal(board_pos, 1, "tlc")
-    blc_pos = move_diagonal(board_pos, 1, "blc")
-    assert trc_pos == (board_pos[0] + 1, board_pos[1] + 1)
-    assert brc_pos == (board_pos[0] + 1, board_pos[1] - 1)
-    assert tlc_pos == (board_pos[0] - 1, board_pos[1] + 1)
-    assert blc_pos == (board_pos[0] - 1, board_pos[1] - 1)
+def test_move_diagonal(start_pos) -> None:
+    new_pos = move_diagonal(start_pos, "test")
+    new_pos2 = move_diagonal(start_pos, "Lbc")
+    new_pos3 = move_diagonal(start_pos, "bRc")
+    new_pos4 = move_diagonal(start_pos, "LtC")
+    assert new_pos == (0, 2)
+    assert new_pos2 == (-2, 0)
+    assert new_pos3 == (0, 0)
+    assert new_pos4 == (-2, 2)
 
 
 def test_token_equality():
