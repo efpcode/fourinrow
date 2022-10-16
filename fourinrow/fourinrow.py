@@ -31,30 +31,7 @@ class IsOutOfRange(Exception):
         return f"Row: {row +1}, Column: {column +1} - {self.message}"
 
 
-def create_board(rows: int = 6, columns: int = 7) -> list:
-    """Creates playing board by rows X column
-
-    Parameters
-    ----------
-    rows : int
-        The rows parameter is the number of rows of the board.
-    columns : int
-        The columns parameter is the number of columns of the  board.
-
-
-    Returns
-    -------
-    board: list
-        The board with rows X columns [(row, column), (row, column)....]
-
-    """
-    board = []
-    for _ in range(rows):
-        board.append([None for _ in range(columns)])
-    return board
-
-
-def board_tokens(slot_value: str) -> str:
+def view_board_tokens(slot_value: str) -> str:
     """
 
     Parameters
@@ -84,7 +61,7 @@ def show_board(board: list) -> None:
     """
 
     for idx, row in enumerate(board, 1):
-        print(idx, list(map(board_tokens, row)))
+        print(idx, list(map(view_board_tokens, row)))
     cols = [f"{value:>5}" for value in range(1, (len(board[0]) + 1))]
     print("".join(cols))
 
@@ -201,30 +178,6 @@ def board_moves(init_pos: Tuple[int, int], direction: str) -> Tuple[int, int]:
         (step[idx] + val) for idx, val in enumerate(init_pos)
     ]
     return new_row_pos, new_column_pos
-
-
-def token_equality(
-    board: list, match_token: Tuple[int, int], target_token: Tuple[int, int]
-) -> bool:
-    """Check if tow slots postion have the same token.
-
-    Parameters
-    ----------
-    board : list
-        Current playing board of n-rows X n-columns
-    match_token : Tuple[int][int]
-        Board position expressed as coordinates (row, column). Pattern to match against.
-    target_token : Tuple[int][int]
-        Board position expressed as coordinates (row, column). Target for match.
-
-    Returns
-    -------
-    bool
-        True if match- and target- token are equal. Otherwise returns False.
-    """
-    pattern_token = board[match_token[0]][match_token[1]]
-    test_token = board[target_token[0]][target_token[1]]
-    return pattern_token == test_token
 
 
 @dataclass

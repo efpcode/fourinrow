@@ -1,25 +1,28 @@
 # -*- coding: utf-8 -*-
 import pytest
-from fourinrow.fourinrow import SlotIsOccupiedError, create_board, select_a_slot
+from fourinrow.fourinrow import SlotIsOccupiedError, BoardValues, select_a_slot
 
 
-def test_pick_position(monkeypatch):
+@pytest.fixture
+def game_board():
+    return BoardValues(6, 7)
+
+
+def test_pick_position(monkeypatch, game_board):
     monkeypatch.setattr("builtins.input", lambda _: 2)
-    board = create_board()
-    value = select_a_slot(board)
+    value = select_a_slot(game_board.board)
     assert value == (1, 1)
 
 
-def test_occupied_slot(monkeypatch):
-    board = create_board(2, 2)
+def test_occupied_slot(monkeypatch, game_board):
     monkeypatch.setattr("builtins.input", lambda _: 2)
-    row, column = select_a_slot(board)
-    board[row][column] = 1
+    row, column = select_a_slot(game_board.board)
+    game_board.board[row][column] = 1
 
     with pytest.raises(
         SlotIsOccupiedError, match="Row: 2, Column: 2 - Slot is occupied"
     ):
-        if board[row][column]:
+        if game_board.board[row][column]:
             raise SlotIsOccupiedError((row, column))
 
 

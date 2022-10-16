@@ -4,16 +4,14 @@ from fourinrow.fourinrow import (
     BoardValues,
     IsOutOfRange,
     PlayerTokens,
-    create_board,
     board_moves,
-    token_equality,
 )
 
 
 def test_board_defaults() -> None:
-    board = create_board()
-    none_vals = sum([value.count(None) for value in board])
-    expected_value = len(board) * len(board[0])
+    board = BoardValues(3, 3)
+    none_vals = sum([value.count(None) for value in board.board])
+    expected_value = len(board.board) * len(board.board[0])
     assert none_vals == expected_value
 
 
@@ -30,7 +28,7 @@ def start_pos() -> tuple:
 
 
 def test_board_moves(start_pos) -> None:
-    new_pos = board_moves(start_pos, "test")
+    new_pos = board_moves(start_pos, "test")  # Return default value of func.
     new_pos2 = board_moves(start_pos, "Lbc")
     new_pos3 = board_moves(start_pos, "bRc")
     new_pos4 = board_moves(start_pos, "LtC")
@@ -49,12 +47,9 @@ def test_board_moves(start_pos) -> None:
     assert new_pos8 == (0, 1)
 
 
-def test_token_equality():
-    board = create_board(rows=2, columns=2)
-    board[0][1] = PlayerTokens.PLAYER_1.value
-    board[1][1] = PlayerTokens.PLAYER_1.value
-    token_equal = token_equality(board, match_token=(0, 1), target_token=(1, 1))
-    assert token_equal is True
+@pytest.mark.xfail(raises=TypeError, strict=True)
+def test_board_moves_direction_not_str(start_pos):
+    board_moves(start_pos, 1)
 
 
 @pytest.fixture
