@@ -162,34 +162,7 @@ def select_a_slot(board: list) -> tuple:
 #    Winner = [tk, tk, tk, tk] four elements have to have the same value
 
 
-def move_linear(init_pos: Tuple[int, int], step: int, v_move: bool = False) -> tuple:
-    """Moves horizontal or vertical from initial board position
-
-    Parameters
-    ----------
-    init_pos : tuple
-        The parameter init_pos is the initial position on the board.
-    step : int
-        The step parameter, determines movement distance from initial point.
-    v_move: bool
-        The v_move, is bool if set to value True direction is vertical.
-
-    Returns
-    -------
-    tuple : int
-         New position for row and column (row, column)
-
-    """
-    if None in init_pos:
-        raise ValueError(
-            f"Invalid values: Row is {init_pos[0]} or Column is {init_pos[1]}"
-        )
-    if v_move:
-        return init_pos[0] + step, init_pos[1]
-    return init_pos[0], init_pos[1] + step
-
-
-def move_diagonal(init_pos: Tuple[int, int], direction: str) -> Tuple[int, int]:
+def board_moves(init_pos: Tuple[int, int], direction: str) -> Tuple[int, int]:
     """Move initial board position in diagonal matter.
 
     Parameters
@@ -198,8 +171,10 @@ def move_diagonal(init_pos: Tuple[int, int], direction: str) -> Tuple[int, int]:
         Starting position on the board (row, column)
 
     direction : str
-        Valid values are lbc (left bottom corner), brc (bottom right corner), ltc (left top corner).
-        The default value is trc (top right corner).
+        Valid values are lbc (left bottom corner), brc (bottom right corner),
+        ltc (left top corner), up, down, left and right.
+        The default value is trc (top right corner). Values indicate step
+        direction.
 
 
     Returns
@@ -207,8 +182,20 @@ def move_diagonal(init_pos: Tuple[int, int], direction: str) -> Tuple[int, int]:
     new_row_pos, new_column_pos : Tuple[int, int]
 
     """
+    if not init_pos:
+        raise ValueError(f"Row: {init_pos[0]} or/and Column {init_pos[1]} are None")
+    if not isinstance(direction, str):
+        raise TypeError(f"direction: {direction} is not types str.")
 
-    steps = {"lbc": (-1, -1), "brc": (1, -1), "ltc": (-1, 1)}
+    steps = {
+        "lbc": (-1, -1),
+        "brc": (1, -1),
+        "ltc": (-1, 1),
+        "up": (0, 1),
+        "down": (0, -1),
+        "left": (-1, 0),
+        "right": (1, 0),
+    }
     step = steps.get(direction.lower(), (1, 1))
     new_row_pos, new_column_pos = [
         (step[idx] + val) for idx, val in enumerate(init_pos)

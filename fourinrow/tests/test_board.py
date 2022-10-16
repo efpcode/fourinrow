@@ -1,13 +1,11 @@
 # -*- coding: utf-8 -*-
-import pyexpat
 import pytest
 from fourinrow.fourinrow import (
     BoardValues,
     IsOutOfRange,
     PlayerTokens,
     create_board,
-    move_diagonal,
-    move_linear,
+    board_moves,
     token_equality,
 )
 
@@ -26,41 +24,29 @@ def test_default_tokens() -> None:
     assert PlayerTokens.CPU.value == "\U0001F916"
 
 
-def test_move_linear() -> None:
-    board_pos = (1, 2)
-    new_pos_mv = move_linear(board_pos, 1)
-    new_neg_mv = move_linear(board_pos, -1)
-    new_pos_mv_v = move_linear(board_pos, 1, True)
-    new_neg_mv_v = move_linear(board_pos, -1, True)
-    assert new_pos_mv == (board_pos[0], board_pos[1] + 1)
-    assert new_neg_mv == (board_pos[0], board_pos[1] - 1)
-    assert new_pos_mv_v == (board_pos[0] + 1, board_pos[1])
-    assert new_neg_mv_v == (board_pos[0] - 1, board_pos[1])
-
-
-def test_none_linear_move() -> None:
-    board_pos = (None, None)
-    with pytest.raises(
-        ValueError,
-        match=f"Invalid values: Row is {board_pos[0]} or Column is {board_pos[1]}",
-    ):
-        move_linear(board_pos, 1)
-
-
 @pytest.fixture
 def start_pos() -> tuple:
-    return (-1, 1)
+    return -1, 1
 
 
-def test_move_diagonal(start_pos) -> None:
-    new_pos = move_diagonal(start_pos, "test")
-    new_pos2 = move_diagonal(start_pos, "Lbc")
-    new_pos3 = move_diagonal(start_pos, "bRc")
-    new_pos4 = move_diagonal(start_pos, "LtC")
+def test_board_moves(start_pos) -> None:
+    new_pos = board_moves(start_pos, "test")
+    new_pos2 = board_moves(start_pos, "Lbc")
+    new_pos3 = board_moves(start_pos, "bRc")
+    new_pos4 = board_moves(start_pos, "LtC")
+    new_pos5 = board_moves(start_pos, "UP")
+    new_pos6 = board_moves(start_pos, "down")
+    new_pos7 = board_moves(start_pos, "left")
+    new_pos8 = board_moves(start_pos, "Right")
+
     assert new_pos == (0, 2)
     assert new_pos2 == (-2, 0)
     assert new_pos3 == (0, 0)
     assert new_pos4 == (-2, 2)
+    assert new_pos5 == (-1, 2)
+    assert new_pos6 == (-1, 0)
+    assert new_pos7 == (-2, 1)
+    assert new_pos8 == (0, 1)
 
 
 def test_token_equality():
