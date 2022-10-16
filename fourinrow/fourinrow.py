@@ -189,36 +189,31 @@ def move_linear(init_pos: Tuple[int, int], step: int, v_move: bool = False) -> t
     return init_pos[0], init_pos[1] + step
 
 
-def move_diagonal(init_pos, step, direction):
+def move_diagonal(init_pos: Tuple[int, int], direction: str) -> Tuple[int, int]:
     """Move initial board position in diagonal matter.
 
     Parameters
     ----------
-    init_pos : tuple
-    step : int
+    init_pos : Tuple[int, int]
+        Starting position on the board (row, column)
+
     direction : str
+        Valid values are lbc (left bottom corner), brc (bottom right corner), ltc (left top corner).
+        The default value is trc (top right corner).
+
 
     Returns
     -------
-    tuple
+    new_row_pos, new_column_pos : Tuple[int, int]
 
     """
-    row = None
-    column = None
-    if direction == "trc":
-        _, column = move_linear(init_pos, step)
-        row, _ = move_linear(init_pos, step, True)
-    elif direction == "brc":
-        _, column = move_linear(init_pos, (step * -1))
-        row, _ = move_linear(init_pos, step, True)
-    elif direction == "tlc":
-        _, column = move_linear(init_pos, step)
-        row, _ = move_linear(init_pos, (step * -1), True)
-    else:
-        _, column = move_linear(init_pos, (step * -1))
-        row, _ = move_linear(init_pos, (step * -1), True)
-        return row, column
-    return row, column
+
+    steps = {"lbc": (-1, -1), "brc": (1, -1), "ltc": (-1, 1)}
+    step = steps.get(direction.lower(), (1, 1))
+    new_row_pos, new_column_pos = [
+        (step[idx] + val) for idx, val in enumerate(init_pos)
+    ]
+    return new_row_pos, new_column_pos
 
 
 def token_equality(
