@@ -28,23 +28,25 @@ def start_pos() -> tuple:
 
 
 def test_board_moves(start_pos) -> None:
-    new_pos = board_moves(start_pos, "test")  # Return default value of func.
-    new_pos2 = board_moves(start_pos, "Lbc")
-    new_pos3 = board_moves(start_pos, "bRc")
-    new_pos4 = board_moves(start_pos, "LtC")
-    new_pos5 = board_moves(start_pos, "UP")
-    new_pos6 = board_moves(start_pos, "down")
-    new_pos7 = board_moves(start_pos, "left")
-    new_pos8 = board_moves(start_pos, "Right")
+    # Return default value of func.
+    assert board_moves(start_pos, "test") == (0, 2)
+    assert board_moves(start_pos, "Lbc") == (-2, 0)
+    assert board_moves(start_pos, "bRc") == (0, 0)
+    assert board_moves(start_pos, "LtC") == (-2, 2)
+    assert board_moves(start_pos, "UP") == (-1, 2)
+    assert board_moves(start_pos, "down") == (-1, 0)
+    assert board_moves(start_pos, "left") == (-2, 1)
+    assert board_moves(start_pos, "Right") == (0, 1)
 
-    assert new_pos == (0, 2)
-    assert new_pos2 == (-2, 0)
-    assert new_pos3 == (0, 0)
-    assert new_pos4 == (-2, 2)
-    assert new_pos5 == (-1, 2)
-    assert new_pos6 == (-1, 0)
-    assert new_pos7 == (-2, 1)
-    assert new_pos8 == (0, 1)
+
+def test_board_moves_reverse(start_pos) -> None:
+    assert board_moves(start_pos, "up", is_reverse=True) == board_moves(
+        start_pos, "down"
+    )
+
+    assert board_moves(start_pos, "ltc", is_reverse=True) == board_moves(
+        start_pos, "brc"
+    )
 
 
 @pytest.mark.xfail(raises=TypeError, strict=True)

@@ -139,7 +139,9 @@ def select_a_slot(board: list) -> tuple:
 #    Winner = [tk, tk, tk, tk] four elements have to have the same value
 
 
-def board_moves(init_pos: Tuple[int, int], direction: str) -> Tuple[int, int]:
+def board_moves(
+    init_pos: Tuple[int, int], direction: str, is_reverse=False
+) -> Tuple[int, int]:
     """Move initial board position in diagonal matter.
 
     Parameters
@@ -152,6 +154,9 @@ def board_moves(init_pos: Tuple[int, int], direction: str) -> Tuple[int, int]:
         ltc (left top corner), up, down, left and right.
         The default value is trc (top right corner). Values indicate step
         direction.
+
+    is_reverse : bool
+        Reverse the direction of the move.
 
 
     Returns
@@ -174,6 +179,8 @@ def board_moves(init_pos: Tuple[int, int], direction: str) -> Tuple[int, int]:
         "right": (1, 0),
     }
     step = steps.get(direction.lower(), (1, 1))
+    if is_reverse:
+        step = step[0] * -1, step[1] * -1
     new_row_pos, new_column_pos = [
         (step[idx] + val) for idx, val in enumerate(init_pos)
     ]
@@ -244,6 +251,69 @@ class BoardValues:
         new_board = self.create_board(self.rows, self.columns)
         self.board = new_board
         return self.board
+
+
+@dataclass
+class GameLogic:
+    """Represent the rules set of the game"""
+
+    nr_tokens_to_win: int
+    nr_rounds: int
+
+    def board_walker(self, init_pos: Tuple[int, int], board: BoardValues) -> tuple:
+        """
+
+        Parameters
+        ----------
+        init_pos : Tuple[int, int]
+            Start position for placed token
+        board : BoardValues
+            Current gaming board
+
+
+        Returns
+        -------
+            Will return a single or nth elements of tuples that corresponds
+            to board positions.
+
+        """
+        reset_val = init_pos
+        last_valid_pos = init_pos
+        board_pos = [init_pos]
+        directions = ["up", "right", "brc", "trc"]
+        reverse_val = False
+        val = None
+        errors = 0
+        is_loop = True
+
+        while is_loop:
+            if not val:
+                val = directions.pop(0)
+            next_pos = board_moves(last_valid_pos, val, reverse_val)
+            try:
+                if not board.board_value_equality(last_valid_pos, next_pos):
+                    raise IsOutOfRange(last_valid_pos, next_pos)
+            except IsOutOfRange:
+                reverse_val = reverse_val is not True
+                last_valid_pos = reset_val
+                errors += 1
+                if not errors % 2:
+                    try:
+                        val = directions.pop(0)
+                    except IndexError:
+                        board_pos = [reset_val]
+                        is_loop = False
+                    else:
+                        board_pos = [reset_val]
+                continue
+            else:
+                board_pos.append(next_pos)
+                last_valid_pos = next_pos
+                if len(board_pos) == self.nr_tokens_to_win:
+                    is_loop = False
+        board_pos.sort()
+
+        return tuple(board_pos)
 
 
 if __name__ == "__main__":

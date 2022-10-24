@@ -33,8 +33,8 @@ def test_display_token_edit_value(board) -> None:
     assert token is PlayerTokens.CPU.value
 
 
-def test_display_board(capsys, small_board) -> None:
-    show_board(small_board.board)
+def test_display_board(capsys, win_board) -> None:
+    show_board(win_board.board)
     board_img = capsys.readouterr()
     expected_layout = "1 ['☐']\n    1\n"
     assert board_img.out == expected_layout
