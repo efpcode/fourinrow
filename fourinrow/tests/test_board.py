@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 import pytest
-from fourinrow.fourinrow import (
-    BoardValues,
-    IsOutOfRange,
+from fourinrow.game.game_model import (
     PlayerTokens,
     board_moves,
+    BoardValues,
+    IsOutOfRange,
 )
 
 
