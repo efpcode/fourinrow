@@ -8,6 +8,7 @@ from fourinrow.fourinrow import (
     PlayerTokens,
     SlotIsOccupiedError,
     select_a_slot,
+    select_player,
 )
 
 
@@ -44,15 +45,6 @@ def test_occupied_slot(monkeypatch, game_board):
             raise SlotIsOccupiedError((row, column))
 
 
-# Todo Create Walker
-# Needs to move one step - done
-# Needs to remember last valid position - variable
-# Needs to retrace steps - done
-# Needs to count - variable
-# Needs mock data to validate - think 3x3 and tictactoe.
-# Needs to check tokens are the same
-
-
 def test_board_walker(win_board):
     init_pos = (1, 1)
     game = GameLogic(3, 1)
@@ -65,3 +57,18 @@ def test_no_wins(win_board):
     game = GameLogic(3, 1)
     no_wins = game.board_walker(init_pos, win_board)
     assert no_wins == ((1, 0),)
+
+
+def test_select_player():
+    picked_players = ["Player 1", "Player2", "RObot"]
+    expected_values = [PlayerTokens.PLAYER_1, PlayerTokens.PLAYER_2, PlayerTokens.CPU]
+    for idx, player in enumerate(picked_players):
+        assert select_player(player) == expected_values[idx]
+
+
+def test_select_player_picked(monkeypatch):
+    picked_player = PlayerTokens.PLAYER_1
+    monkeypatch.setattr("builtins.input", lambda _: "player2")
+    assert (
+        select_player("player1", player_picked=picked_player) == PlayerTokens.PLAYER_2
+    )
