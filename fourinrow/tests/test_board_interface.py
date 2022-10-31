@@ -2,14 +2,8 @@
 from typing import Tuple
 
 import pytest
-from fourinrow.fourinrow import (
-    BoardValues,
-    GameLogic,
-    PlayerTokens,
-    SlotIsOccupiedError,
-    select_a_slot,
-    select_player,
-)
+from fourinrow.game.game_interface import select_a_slot, select_player, GameLogic
+from fourinrow.game.game_model import PlayerTokens, BoardValues, SlotIsOccupiedError
 
 
 @pytest.fixture

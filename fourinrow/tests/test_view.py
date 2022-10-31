@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import pytest
-from fourinrow.fourinrow import BoardValues, PlayerTokens, show_board, view_board_tokens
+from fourinrow.game.game_model import PlayerTokens, BoardValues
+from fourinrow.game.game_view import view_board_tokens, show_board
 
 
 @pytest.fixture
