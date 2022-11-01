@@ -106,6 +106,24 @@ def select_player(player_name: str, player_picked: PlayerTokens = None) -> Playe
             return new_player
 
 
+def switch_player(players: list, current_player: PlayerTokens):
+    """Player switcher
+
+    Parameters
+    ----------
+    players : list
+    current_player : PlayerTokens
+
+    Returns
+    -------
+        Switched player as PlayerTokens instance
+
+    """
+    tmp_list = players[:]
+    tmp_list.pop(tmp_list.index(current_player))
+    return tmp_list[0]
+
+
 @dataclass
 class GameLogic:
     """Represent the rules set of the game"""
@@ -167,3 +185,8 @@ class GameLogic:
         board_pos.sort()
 
         return tuple(board_pos)
+
+    def board_dimensions(self) -> Tuple[int, int]:
+        """Calculates 'proper' board dimensions"""
+        nums_columns = self.nr_tokens_to_win + max(range(self.nr_tokens_to_win))
+        return nums_columns - 1, nums_columns

@@ -2,7 +2,13 @@
 from typing import Tuple
 
 import pytest
-from fourinrow.game.game_interface import select_a_slot, select_player, GameLogic
+from random import choice
+from fourinrow.game.game_interface import (
+    select_a_slot,
+    select_player,
+    switch_player,
+    GameLogic,
+)
 from fourinrow.game.game_model import PlayerTokens, BoardValues, SlotIsOccupiedError
 
 
@@ -19,6 +25,13 @@ def win_board():
     game_board.set_board_value((1, 1), PlayerTokens.PLAYER_1.value)
     game_board.set_board_value((2, 2), PlayerTokens.PLAYER_1.value)
     return game_board
+
+
+@pytest.fixture
+def players():
+    p1 = select_player("player1")
+    p2 = select_player("player2", player_picked=p1)
+    return [p1, p2]
 
 
 def test_pick_position(monkeypatch, game_board):
@@ -66,3 +79,18 @@ def test_select_player_picked(monkeypatch):
     assert (
         select_player("player1", player_picked=picked_player) == PlayerTokens.PLAYER_2
     )
+
+
+def test_switch_player(players):
+    all_values = players[:]
+    is_playing = choice(players)
+    all_values.pop(all_values.index(is_playing))
+    new_player = switch_player(players, is_playing)
+    assert all_values[0] == new_player
+
+
+def test_board_dimensions():
+    board_rules = GameLogic(4, 1)
+    row, column = board_rules.board_dimensions()
+    assert row == 6
+    assert column == 7
