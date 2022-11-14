@@ -4,8 +4,8 @@ from fourinrow.game.game_model import (
     PlayerTokens,
     board_moves,
     BoardValues,
-    IsOutOfRange,
 )
+from fourinrow.game.game_exceptions import IsOutOfRange
 
 
 def test_board_defaults() -> None:
