@@ -3,13 +3,16 @@ from typing import Tuple
 
 import pytest
 from random import choice
-from fourinrow.game.game_interface import (
+from fourinrow.game.game_model import (
+    PlayerTokens,
+    BoardValues,
     select_a_slot,
     select_player,
     switch_player,
-    GameLogic,
+    GameConfig,
+    board_walker,
 )
-from fourinrow.game.game_model import PlayerTokens, BoardValues, SlotIsOccupiedError
+from fourinrow.game.game_exceptions import SlotIsOccupiedError
 
 
 @pytest.fixture
@@ -54,15 +57,15 @@ def test_occupied_slot(monkeypatch, game_board):
 
 def test_board_walker(win_board):
     init_pos = (1, 1)
-    game = GameLogic(3, 1)
-    win_pos = game.board_walker(init_pos, win_board)
+    game = GameConfig(3, 1)
+    win_pos = board_walker(game.nr_tokens_to_win, init_pos, win_board)
     assert win_pos == ((0, 0), (1, 1), (2, 2))
 
 
 def test_no_wins(win_board):
     init_pos = (1, 0)
-    game = GameLogic(3, 1)
-    no_wins = game.board_walker(init_pos, win_board)
+    game = GameConfig(3, 1)
+    no_wins = board_walker(game.nr_tokens_to_win, init_pos, win_board)
     assert no_wins == ((1, 0),)
 
 
@@ -90,7 +93,7 @@ def test_switch_player(players):
 
 
 def test_board_dimensions():
-    board_rules = GameLogic(4, 1)
+    board_rules = GameConfig(4, 1)
     row, column = board_rules.board_dimensions()
     assert row == 6
     assert column == 7
