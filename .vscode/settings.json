@@ -4,6 +4,5 @@
   },
   "python.linting.pylintEnabled": true,
   "python.linting.mypyEnabled": false,
-  "python.linting.enabled": false,
-  "python.linting.pylintPath": "/Users/efp/.local/bin/pylint"
+  "python.linting.enabled": false
 }
