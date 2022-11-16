@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """Four-in-a-row Game"""
-import game.game_view as gw
+from game.game_view import intro_screen
+from game.game_model import select_player
 
 # TODO: Initialize game
 #  Welcome screen
@@ -16,5 +17,13 @@ import game.game_view as gw
 #  Loop until winner, repeat nr of rounds
 #  Keep score
 
+
+def main():
+    """Runs game"""
+    print(intro_screen())
+    player_1, player_2 = [select_player("start") for _ in range(2)]
+    print(player_1, player_2)
+
+
 if __name__ == "__main__":
-    print(gw.intro_screen())
+    main()

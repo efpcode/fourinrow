@@ -3,7 +3,7 @@ from typing import Tuple
 
 import pytest
 from random import choice
-from fourinrow.game.game_model import (
+from game.game_model import (
     PlayerTokens,
     BoardValues,
     select_a_slot,
@@ -12,7 +12,7 @@ from fourinrow.game.game_model import (
     GameConfig,
     board_walker,
 )
-from fourinrow.game.game_exceptions import SlotIsOccupiedError
+from game.game_exceptions import SlotIsOccupiedError
 
 
 @pytest.fixture

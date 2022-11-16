@@ -5,7 +5,7 @@ from dataclasses import dataclass, field
 from enum import Enum
 from typing import Tuple
 
-from fourinrow.game.game_exceptions import IsOutOfRange, SlotIsOccupiedError
+from game.game_exceptions import IsOutOfRange, SlotIsOccupiedError
 
 
 class PlayerTokens(Enum):

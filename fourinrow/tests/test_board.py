@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
 import pytest
-from fourinrow.game.game_model import (
+
+
+from game.game_model import (
     PlayerTokens,
     board_moves,
     BoardValues,
 )
-from fourinrow.game.game_exceptions import IsOutOfRange
+from game.game_exceptions import IsOutOfRange
 
 
 def test_board_defaults() -> None:
