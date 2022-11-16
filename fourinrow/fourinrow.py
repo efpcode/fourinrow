@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """Four-in-a-row Game"""
-from fourinrow.game.game_view import intro_screen
+import game.game_view as gw
 
 # TODO: Initialize game
 #  Welcome screen
@@ -17,4 +17,4 @@ from fourinrow.game.game_view import intro_screen
 #  Keep score
 
 if __name__ == "__main__":
-    print(intro_screen())
+    print(gw.intro_screen())
