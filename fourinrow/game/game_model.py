@@ -189,7 +189,9 @@ def select_a_slot(board: list) -> tuple:
             return row, column
 
 
-def select_player(player_name: str, player_picked: PlayerTokens = None) -> PlayerTokens:
+def select_player(
+    player_name: str = None, player_picked: PlayerTokens = None
+) -> PlayerTokens:
     """
 
     Parameters
