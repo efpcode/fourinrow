@@ -211,7 +211,7 @@ def select_player(
     all_players = {
         "player1": PlayerTokens.PLAYER_1,
         "player2": PlayerTokens.PLAYER_2,
-        "robot": PlayerTokens.CPU,
+        "cpu": PlayerTokens.CPU,
     }
     pattern = re.compile(r"[\W_]")
 

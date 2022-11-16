@@ -21,7 +21,9 @@ from game.game_model import select_player
 def main():
     """Runs game"""
     print(intro_screen())
-    player_1, player_2 = [select_player("start") for _ in range(2)]
+    player_1 = select_player()
+    print(player_1.name)
+    player_2 = select_player(player_name=player_1.name, player_picked=player_1)
     print(player_1, player_2)
 
 
