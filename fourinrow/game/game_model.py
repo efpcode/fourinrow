@@ -163,7 +163,7 @@ def select_a_slot(board: list) -> tuple:
     rows_nums, columns_nums = range(len(board)), range(len(board[0]))
 
     while True:
-        row, column = [input(f"Enter a {val} position") for val in ["row", "column"]]
+        row, column = [input(f"Enter a {val} position: ") for val in ["row", "column"]]
         try:
             row, column = int(row) - 1, int(column) - 1  # count start from 1
 
@@ -218,7 +218,7 @@ def select_player(
     while True:
         if not player_name:
             player_name = input(
-                f"Please select a players: " f" {', '.join(all_players.keys())}: "
+                f"Please select a players:{', '.join(all_players.keys())}: "
             )
         player_name = pattern.sub("", player_name).lower()
 
@@ -361,3 +361,24 @@ def board_walker(
     board_pos.sort()
 
     return tuple(board_pos)
+
+
+def game_set_config() -> Tuple[int, int]:
+    """
+    Setups the conditions of the game
+    Returns
+    -------
+
+    """
+    general_txt = "Set number of "
+    game_options = ["number of the same token to win: ", "number of rounds: "]
+    while True:
+        try:
+            game_settings = [
+                int(input("".join([general_txt, i]))) for i in game_options
+            ]
+        except (ValueError, TypeError):
+            print("Please try again")
+            continue
+        else:
+            return tuple(game_settings)
