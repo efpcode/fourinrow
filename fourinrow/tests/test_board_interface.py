@@ -3,7 +3,7 @@ from typing import Tuple
 
 import pytest
 from random import choice
-from fourinrow.game.game_model import (
+from game.game_model import (
     PlayerTokens,
     BoardValues,
     select_a_slot,
@@ -12,7 +12,7 @@ from fourinrow.game.game_model import (
     GameConfig,
     board_walker,
 )
-from fourinrow.game.game_exceptions import SlotIsOccupiedError
+from game.game_exceptions import SlotIsOccupiedError
 
 
 @pytest.fixture
@@ -70,7 +70,7 @@ def test_no_wins(win_board):
 
 
 def test_select_player():
-    picked_players = ["Player 1", "Player2", "RObot"]
+    picked_players = ["Player 1", "Player2", "cpU"]
     expected_values = [PlayerTokens.PLAYER_1, PlayerTokens.PLAYER_2, PlayerTokens.CPU]
     for idx, player in enumerate(picked_players):
         assert select_player(player) == expected_values[idx]

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import pytest
-from fourinrow.game.game_model import (
+from game.game_model import (
     PlayerTokens,
     BoardValues,
     show_board,

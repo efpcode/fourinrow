@@ -1,11 +1,9 @@
 # -*- coding: utf-8 -*-
 import pytest
-from fourinrow.game.game_model import (
-    PlayerTokens,
-    board_moves,
-    BoardValues,
-)
-from fourinrow.game.game_exceptions import IsOutOfRange
+
+
+from game.game_model import PlayerTokens, board_moves, BoardValues, game_set_config
+from game.game_exceptions import IsOutOfRange
 
 
 def test_board_defaults() -> None:
@@ -92,3 +90,11 @@ def test_set_board_value(board_data):
 def test_board_value_equality(board_data):
     board_data.set_board_value(position=(1, 4), value=PlayerTokens.PLAYER_1.value)
     assert board_data.board_value_equality(position=(0, 1), position2=(1, 4))
+
+
+def test_game_set_config(monkeypatch):
+    monkeypatch.setattr("builtins.input", lambda _: "3")
+    nr_tokens_to_win, nr_rounds = game_set_config()
+    assert isinstance(nr_tokens_to_win, int)
+    assert isinstance(nr_rounds, int)
+    assert (nr_rounds, nr_tokens_to_win) == (3, 3)
