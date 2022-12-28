@@ -1,17 +1,19 @@
 # -*- coding: utf-8 -*-
 
-import pytest
 from random import choice
+
+import pytest
+from game.game_exceptions import SlotIsOccupiedError
 from game.game_model import (
-    PlayerTokens,
     BoardValues,
+    GameConfig,
+    PlayerTokens,
+    board_walker,
+    select_a_column,
     select_a_slot,
     select_player,
     switch_player,
-    GameConfig,
-    board_walker,
 )
-from game.game_exceptions import SlotIsOccupiedError
 
 
 @pytest.fixture
@@ -56,6 +58,12 @@ def test_pick_position(monkeypatch, game_board):
     monkeypatch.setattr("builtins.input", lambda _: 2)
     value = select_a_slot(game_board.board)
     assert value == (1, 1)
+
+
+def test_pick_a_column(monkeypatch, game_board):
+    monkeypatch.setattr("builtins.input", lambda _: 1)
+    value = select_a_column(game_board.board)
+    assert value == (5, 0)
 
 
 def test_occupied_slot(monkeypatch, game_board):

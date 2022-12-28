@@ -1,17 +1,19 @@
 # -*- coding: utf-8 -*-
 """Four-in-a-row Game"""
 from random import choice
-from game.game_view import intro_screen
+
 from game.game_model import (
-    select_player,
-    GameConfig,
-    game_set_config,
     BoardValues,
-    show_board,
-    select_a_slot,
+    GameConfig,
     board_walker,
+    game_set_config,
+    select_a_column,
+    select_a_slot,
+    select_player,
+    show_board,
     switch_player,
 )
+from game.game_view import intro_screen
 
 # TODO: Initialize game
 #  Welcome screen
@@ -25,6 +27,16 @@ from game.game_model import (
 #  Check if placed token equals win
 #  Switch player
 #  Loop until winner, repeat nr of rounds
+def game_mode():
+    """The funtion return the game mode for four-in-a-row either freeform or classical mode."""
+    while True:
+        user_input = input("Do you wish to play freeform (y/n): ").lower()
+        if not user_input in ["n", "y"]:
+            print("Please enter either n or y")
+            continue
+        if user_input == "y":
+            return select_a_slot
+        return select_a_column
 
 
 def main():
@@ -36,6 +48,7 @@ def main():
     nr_tokens_to_win, nr_rounds = game_set_config()
     game_rules = GameConfig(nr_tokens_to_win, nr_rounds)
     nr_columns, nr_rows = game_rules.board_dimensions()
+    select_token_pos = game_mode()
     game_board = BoardValues(nr_columns, nr_rows)
     current_player = choice([player_2, player_1])
     while counter < nr_rounds:
@@ -43,7 +56,7 @@ def main():
         print(f"{current_player.name} - {current_player.value} PLAYING -")
         print()
         show_board(game_board.board)
-        board_cords = select_a_slot(game_board.board)
+        board_cords = select_token_pos(game_board.board)
         game_board.set_board_value(board_cords, current_player.value)
         tiles_hit = board_walker(nr_tokens_to_win, board_cords, game_board)
         show_board(game_board.board)

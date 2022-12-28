@@ -155,6 +155,7 @@ class BoardValues:
 
 
 def select_a_slot(board: list) -> tuple:
+
     """Selects a position of the gaming board.
 
     Parameters
@@ -195,6 +196,46 @@ def select_a_slot(board: list) -> tuple:
 
         else:
             return row, column
+
+
+def select_a_column(board: list) -> tuple:
+
+    """Selects a position of the gaming board.
+
+    Parameters
+    ----------
+    board: list
+        The parameter board is the current gaming board.
+
+    Returns
+    -------
+    tuple
+    """
+    columns_nums = range(len(board[0]))
+
+    while True:
+        column = input(f"Enter a column nr from 1 - {len(columns_nums)}: ")
+        try:
+            column = int(column) - 1  # count start from 1
+            if not column in range(len(board[0])):
+                raise ValueError
+            all_column_pos = (
+                (row, column) for row in range(len(board)) if not board[row][column]
+            )
+            all_col_sorted = sorted(all_column_pos, key=lambda x: x[0], reverse=True)
+            if not all_col_sorted:
+                raise IndexError
+
+        except (TypeError, ValueError) as error:
+            print(f"{error} is not a valid option")
+            continue
+        except IndexError as error:
+            print(
+                f"All column values are occupied for {column}: {error} please try another column."
+            )
+            continue
+        else:
+            return all_col_sorted[0]
 
 
 def select_player(
