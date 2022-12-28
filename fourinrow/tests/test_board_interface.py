@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from typing import Tuple
 
 import pytest
 from random import choice
@@ -27,6 +26,22 @@ def win_board():
     game_board.set_board_value((1, 0), PlayerTokens.PLAYER_1.value)
     game_board.set_board_value((1, 1), PlayerTokens.PLAYER_1.value)
     game_board.set_board_value((2, 2), PlayerTokens.PLAYER_1.value)
+    return game_board
+
+
+@pytest.fixture
+def draw_board():
+    game_board = BoardValues(3, 3)
+    game_board.set_board_value((0, 0), PlayerTokens.PLAYER_1.value)
+    game_board.set_board_value((0, 2), PlayerTokens.PLAYER_1.value)
+    game_board.set_board_value((0, 1), PlayerTokens.PLAYER_1.value)
+    game_board.set_board_value((1, 0), PlayerTokens.PLAYER_1.value)
+    game_board.set_board_value((2, 1), PlayerTokens.PLAYER_1.value)
+    game_board.set_board_value((0, 1), PlayerTokens.PLAYER_2.value)
+    game_board.set_board_value((1, 1), PlayerTokens.PLAYER_2.value)
+    game_board.set_board_value((1, 2), PlayerTokens.PLAYER_2.value)
+    game_board.set_board_value((2, 0), PlayerTokens.PLAYER_2.value)
+    game_board.set_board_value((2, 2), PlayerTokens.PLAYER_2.value)
     return game_board
 
 
@@ -60,6 +75,11 @@ def test_board_walker(win_board):
     game = GameConfig(3, 1)
     win_pos = board_walker(game.nr_tokens_to_win, init_pos, win_board)
     assert win_pos == ((0, 0), (1, 1), (2, 2))
+
+
+def test_board_draw(draw_board):
+    outcome = BoardValues.is_board_complete(draw_board.board)
+    assert outcome is True
 
 
 def test_no_wins(win_board):

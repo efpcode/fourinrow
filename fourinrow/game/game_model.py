@@ -88,6 +88,14 @@ class BoardValues:
     columns: int
     board: list = field(init=False, repr=False)
 
+    # class methods
+    @classmethod
+    def is_board_complete(cls, current_playing_board):
+        """Returns bool if slot empty or not"""
+        return all((value for row in current_playing_board for value in row))
+
+    # Methods
+
     def create_board(self, rows, columns):
         """
 

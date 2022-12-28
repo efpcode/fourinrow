@@ -25,7 +25,6 @@ from game.game_model import (
 #  Check if placed token equals win
 #  Switch player
 #  Loop until winner, repeat nr of rounds
-#  Keep score
 
 
 def main():
@@ -48,12 +47,18 @@ def main():
         game_board.set_board_value(board_cords, current_player.value)
         tiles_hit = board_walker(nr_tokens_to_win, board_cords, game_board)
         show_board(game_board.board)
+        if BoardValues.is_board_complete(game_board.board):
+            counter += 1
+            print("- Draw - ")
+            print()
+            print(" - New round - ")
+            continue
         if len(tiles_hit) == nr_tokens_to_win:
             game_board = BoardValues(nr_columns, nr_rows)
             print(f"{current_player.name} -{current_player.value}  - Won !")
             counter += 1
             print()
-            print("- New round- ")
+            print(" - New round - ")
             print()
             continue
         current_player = switch_player(
