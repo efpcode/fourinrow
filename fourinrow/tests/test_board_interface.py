@@ -1,18 +1,19 @@
 # -*- coding: utf-8 -*-
-from typing import Tuple
+
+from random import choice
 
 import pytest
-from random import choice
+from game.game_exceptions import SlotIsOccupiedError
 from game.game_model import (
-    PlayerTokens,
     BoardValues,
+    GameConfig,
+    PlayerTokens,
+    board_walker,
+    select_a_column,
     select_a_slot,
     select_player,
     switch_player,
-    GameConfig,
-    board_walker,
 )
-from game.game_exceptions import SlotIsOccupiedError
 
 
 @pytest.fixture
@@ -31,6 +32,22 @@ def win_board():
 
 
 @pytest.fixture
+def draw_board():
+    game_board = BoardValues(3, 3)
+    game_board.set_board_value((0, 0), PlayerTokens.PLAYER_1.value)
+    game_board.set_board_value((0, 2), PlayerTokens.PLAYER_1.value)
+    game_board.set_board_value((0, 1), PlayerTokens.PLAYER_1.value)
+    game_board.set_board_value((1, 0), PlayerTokens.PLAYER_1.value)
+    game_board.set_board_value((2, 1), PlayerTokens.PLAYER_1.value)
+    game_board.set_board_value((0, 1), PlayerTokens.PLAYER_2.value)
+    game_board.set_board_value((1, 1), PlayerTokens.PLAYER_2.value)
+    game_board.set_board_value((1, 2), PlayerTokens.PLAYER_2.value)
+    game_board.set_board_value((2, 0), PlayerTokens.PLAYER_2.value)
+    game_board.set_board_value((2, 2), PlayerTokens.PLAYER_2.value)
+    return game_board
+
+
+@pytest.fixture
 def players():
     p1 = select_player("player1")
     p2 = select_player("player2", player_picked=p1)
@@ -41,6 +58,12 @@ def test_pick_position(monkeypatch, game_board):
     monkeypatch.setattr("builtins.input", lambda _: 2)
     value = select_a_slot(game_board.board)
     assert value == (1, 1)
+
+
+def test_pick_a_column(monkeypatch, game_board):
+    monkeypatch.setattr("builtins.input", lambda _: 1)
+    value = select_a_column(game_board.board)
+    assert value == (5, 0)
 
 
 def test_occupied_slot(monkeypatch, game_board):
@@ -60,6 +83,11 @@ def test_board_walker(win_board):
     game = GameConfig(3, 1)
     win_pos = board_walker(game.nr_tokens_to_win, init_pos, win_board)
     assert win_pos == ((0, 0), (1, 1), (2, 2))
+
+
+def test_board_draw(draw_board):
+    outcome = BoardValues.is_board_complete(draw_board.board)
+    assert outcome is True
 
 
 def test_no_wins(win_board):
