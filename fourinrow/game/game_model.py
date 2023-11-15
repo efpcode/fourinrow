@@ -14,7 +14,7 @@ class PlayerTokens(Enum):
     PLAYER_1 = "\U0001F534"  # Red Circle
     PLAYER_2 = "\U0001F535"  # Blue Circle
     CPU = "\U0001F916"  # Robot Face
-    NO_PLAYER = "\u2610"  # Empty square
+    NO_PLAYER = "\U00002B1B"  # Empty square
 
     def __str__(self):
         return f"{self.value}"
@@ -231,7 +231,8 @@ def select_a_column(board: list) -> tuple:
             continue
         except IndexError as error:
             print(
-                f"All column values are occupied for {column}: {error} please try another column."
+                f"All column values are occupied for "
+                f"{column + 1}: {error} please try another column."
             )
             continue
         else:
@@ -267,7 +268,7 @@ def select_player(
     while True:
         if not player_name:
             player_name = input(
-                f"Please select a players:{', '.join(all_players.keys())}: "
+                f"Please select a players: {', '.join(all_players.keys())}: "
             )
         player_name = pattern.sub("", player_name).lower()
 
@@ -333,7 +334,7 @@ def show_board(board: list) -> None:
 
     for idx, row in enumerate(board, 1):
         print(idx, list(map(view_board_tokens, row)))
-    cols = [f"{value:>5}" for value in range(1, (len(board[0]) + 1))]
+    cols = [f"{value:>6}" for value in range(1, (len(board[0]) + 1))]
     print("".join(cols))
 
 
@@ -420,7 +421,7 @@ def game_set_config() -> Tuple[int, int]:
 
     """
     general_txt = "Set number of "
-    game_options = ["number of the same token to win: ", "number of rounds: "]
+    game_options = ["identitcal tokens to win: ", "rounds to play: "]
     while True:
         try:
             game_settings = [
