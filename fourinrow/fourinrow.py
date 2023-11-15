@@ -32,6 +32,7 @@ def main():
     """Runs game"""
     print(intro_screen())
     counter = 0
+    is_new_round = False
     player_1 = select_player()
     player_2 = select_player(player_name=player_1.name, player_picked=player_1)
     nr_tokens_to_win, nr_rounds = game_set_config()
@@ -41,6 +42,11 @@ def main():
     game_board = BoardValues(nr_columns, nr_rows)
     current_player = choice([player_2, player_1])
     while counter < nr_rounds:
+        if is_new_round:
+            print()
+            print("- New Round -")
+            print()
+            is_new_round = False
         print()
         print(f"{current_player.name} - {current_player.value} PLAYING -")
         print()
@@ -53,6 +59,7 @@ def main():
             counter += 1
             print("- Draw - ")
             print()
+            is_new_round = True
             continue
         if len(tiles_hit) == nr_tokens_to_win:
             game_board = BoardValues(nr_columns, nr_rows)
@@ -60,6 +67,7 @@ def main():
             counter += 1
             print()
             print()
+            is_new_round = True
             continue
         current_player = switch_player(
             [player_1, player_2], current_player=current_player
