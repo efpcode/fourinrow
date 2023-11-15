@@ -15,18 +15,7 @@ from game.game_model import (
 )
 from game.game_view import intro_screen
 
-# TODO: Initialize game
-#  Welcome screen
-#  Select Players -> p1 and p2
-#  Set nr minimum a like to win and nr rounds
 
-# TODO: Loop Game
-#  Pick random player
-#  Add token to slot
-#  Check slot is empty
-#  Check if placed token equals win
-#  Switch player
-#  Loop until winner, repeat nr of rounds
 def game_mode():
     """The funtion return the game mode for four-in-a-row either freeform or classical mode."""
     while True:
@@ -64,14 +53,12 @@ def main():
             counter += 1
             print("- Draw - ")
             print()
-            print(" - New round - ")
             continue
         if len(tiles_hit) == nr_tokens_to_win:
             game_board = BoardValues(nr_columns, nr_rows)
-            print(f"{current_player.name} -{current_player.value}  - Won !")
+            print(f"{current_player.name} - {current_player.value}  - Won !")
             counter += 1
             print()
-            print(" - New round - ")
             print()
             continue
         current_player = switch_player(
