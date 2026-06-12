@@ -4,6 +4,7 @@ import re
 from dataclasses import dataclass, field
 from enum import Enum
 from typing import Tuple
+from random import randint
 
 from game.game_exceptions import IsOutOfRange, SlotIsOccupiedError
 
@@ -11,10 +12,10 @@ from game.game_exceptions import IsOutOfRange, SlotIsOccupiedError
 class PlayerTokens(Enum):
     """The available tokens in the game."""
 
-    PLAYER_1 = "\U0001F534"  # Red Circle
-    PLAYER_2 = "\U0001F535"  # Blue Circle
-    CPU = "\U0001F916"  # Robot Face
-    NO_PLAYER = "\U00002B1B"  # Empty square
+    PLAYER_1 = "\U0001f534"  # Red Circle
+    PLAYER_2 = "\U0001f535"  # Blue Circle
+    CPU = "\U0001f916"  # Robot Face
+    NO_PLAYER = "\U00002b1b"  # Empty square
 
     def __str__(self):
         return f"{self.value}"
@@ -154,14 +155,16 @@ class BoardValues:
         return self.board
 
 
-def select_a_slot(board: list) -> tuple:
-
+def select_a_slot(board: list, player_name: string) -> tuple:
     """Selects a position of the gaming board.
 
     Parameters
     ----------
     board: list
         The parameter board is the current gaming board.
+
+    player_name: string
+        The parameter is the current player making a move.
 
     Returns
     -------
@@ -172,7 +175,13 @@ def select_a_slot(board: list) -> tuple:
     rows_nums, columns_nums = range(len(board)), range(len(board[0]))
 
     while True:
-        row, column = [input(f"Enter a {val} position: ") for val in ["row", "column"]]
+        if player_name != "CPU":
+            row, column = [
+                input(f"Enter a {val} position: ") for val in ["row", "column"]
+            ]
+        else:
+            column = str(randint(1, len(board)))
+            row = str(randint(1, len(board[0])))
         try:
             row, column = int(row) - 1, int(column) - 1  # count start from 1
 
@@ -198,14 +207,16 @@ def select_a_slot(board: list) -> tuple:
             return row, column
 
 
-def select_a_column(board: list) -> tuple:
-
+def select_a_column(board: list, player_name: string) -> tuple:
     """Selects a position of the gaming board.
 
     Parameters
     ----------
     board: list
         The parameter board is the current gaming board.
+
+    player_name: string
+        The parameter is the current player making a move.
 
     Returns
     -------
@@ -214,7 +225,10 @@ def select_a_column(board: list) -> tuple:
     columns_nums = range(len(board[0]))
 
     while True:
-        column = input(f"Enter a column nr from 1 - {len(columns_nums)}: ")
+        if player_name != "CPU":
+            column = input(f"Enter a column nr from 1 - {len(columns_nums)}: ")
+        else:
+            column = str(randint(1, len(board[0])))
         try:
             column = int(column) - 1  # count start from 1
             if not column in range(len(board[0])):
