@@ -51,7 +51,8 @@ def main():
         print(f"{current_player.name} - {current_player.value} PLAYING -")
         print()
         show_board(game_board.board)
-        board_cords = select_token_pos(game_board.board)
+
+        board_cords = select_token_pos(game_board.board, current_player.name)
         game_board.set_board_value(board_cords, current_player.value)
         tiles_hit = board_walker(nr_tokens_to_win, board_cords, game_board)
         show_board(game_board.board)
