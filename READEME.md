@@ -16,6 +16,7 @@ A modular, terminal-based implementation of the classic Four-in-a-Row game, buil
 ### Prerequisites
 
 - Python 3.x
+- PyTest
 
 ### Running the Game
 
