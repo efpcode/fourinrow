@@ -155,7 +155,7 @@ class BoardValues:
         return self.board
 
 
-def select_a_slot(board: list, player_name: string) -> tuple:
+def select_a_slot(board: list, player_name: str) -> tuple:
     """Selects a position of the gaming board.
 
     Parameters
@@ -207,7 +207,7 @@ def select_a_slot(board: list, player_name: string) -> tuple:
             return row, column
 
 
-def select_a_column(board: list, player_name: string) -> tuple:
+def select_a_column(board: list, player_name: str) -> tuple:
     """Selects a position of the gaming board.
 
     Parameters
