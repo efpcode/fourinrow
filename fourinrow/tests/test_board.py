@@ -14,10 +14,10 @@ def test_board_defaults() -> None:
 
 
 def test_default_tokens() -> None:
-    assert PlayerTokens.NO_PLAYER.value == "\u2610"
-    assert PlayerTokens.PLAYER_1.value == "\U0001F534"
-    assert PlayerTokens.PLAYER_2.value == "\U0001F535"
-    assert PlayerTokens.CPU.value == "\U0001F916"
+    assert PlayerTokens.NO_PLAYER.value == "\U00002b1b"
+    assert PlayerTokens.PLAYER_1.value == "\U0001f534"
+    assert PlayerTokens.PLAYER_2.value == "\U0001f535"
+    assert PlayerTokens.CPU.value == "\U0001f916"
 
 
 @pytest.fixture

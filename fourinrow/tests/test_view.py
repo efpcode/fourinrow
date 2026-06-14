@@ -41,5 +41,5 @@ def test_display_token_edit_value(board) -> None:
 def test_display_board(capsys, small_board) -> None:
     show_board(small_board.board)
     board_img = capsys.readouterr()
-    expected_layout = "1 ['☐']\n    1\n"
+    expected_layout = "1 ['\U00002b1b']\n     1\n"
     assert board_img.out == expected_layout

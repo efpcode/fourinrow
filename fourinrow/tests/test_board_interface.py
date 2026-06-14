@@ -56,19 +56,19 @@ def players():
 
 def test_pick_position(monkeypatch, game_board):
     monkeypatch.setattr("builtins.input", lambda _: 2)
-    value = select_a_slot(game_board.board)
+    value = select_a_slot(game_board.board, "PLAYER_1")
     assert value == (1, 1)
 
 
 def test_pick_a_column(monkeypatch, game_board):
     monkeypatch.setattr("builtins.input", lambda _: 1)
-    value = select_a_column(game_board.board)
+    value = select_a_column(game_board.board, "PLAYER_1")
     assert value == (5, 0)
 
 
 def test_occupied_slot(monkeypatch, game_board):
     monkeypatch.setattr("builtins.input", lambda _: 2)
-    row, column = select_a_slot(game_board.board)
+    row, column = select_a_slot(game_board.board, "PLAYER_1")
     game_board.board[row][column] = 1
 
     with pytest.raises(
